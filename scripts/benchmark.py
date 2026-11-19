@@ -81,12 +81,14 @@ async def measure(concurrency,warmup,seconds):
 def main():
     p=argparse.ArgumentParser()
     p.add_argument("--seconds",type=float,default=5)
+    p.add_argument("--max-in-flight",type=int,default=6)
+    p.add_argument("--queue-capacity",type=int,default=12)
     p.add_argument("--warmup",type=float,default=1)
     p.add_argument("--repeats",type=int,default=3)
     p.add_argument("--concurrency",type=int,nargs="+",default=[1,12,48])
     p.add_argument("--output",type=Path,default=ROOT/"benchmarks/local")
     args=p.parse_args()
-    if args.seconds<=0 or args.warmup<=0 or args.repeats<1 or min(args.concurrency)<1:
+    if args.seconds<=0 or args.warmup<=0 or args.repeats<1 or min(args.concurrency)<1 or args.max_in_flight<1 or args.queue_capacity<0:
         p.error("durations, repeats, concurrency must be positive")
     if args.output.exists():
         p.error("output already exists; choose a new directory to preserve raw evidence")
@@ -106,7 +108,7 @@ def main():
         "model":json.loads((ROOT/"models/iris_logistic.json").read_text()),
         "workers":3,"worker_compute_slots":1,"worker_pending_limit":2,
         "ort_intra_op_threads":1,"ort_inter_op_threads":1,
-        "max_in_flight":6,"queue_capacity":12,"build":"cargo build --release --locked",
+        "max_in_flight":args.max_in_flight,"queue_capacity":args.queue_capacity,"build":"cargo build --release --locked",
         "concurrency":args.concurrency,"warmup_seconds":args.warmup,
         "measurement_seconds":args.seconds,"repeats":args.repeats,
         "workload":{"values":[6.7,3.0,5.2,2.3],"deadline_ms":1000},
@@ -130,7 +132,7 @@ def main():
                     policies.reverse()
                 for policy in policies:
                     run=f"c{concurrency}-r{repeat+1}-{policy}"
-                    env=dict(os.environ,BACKEND="onnx",POLICY=policy,MAX_IN_FLIGHT="6",QUEUE_CAPACITY="12",
+                    env=dict(os.environ,BACKEND="onnx",POLICY=policy,MAX_IN_FLIGHT=str(args.max_in_flight),QUEUE_CAPACITY=str(args.queue_capacity),
                         BIND="127.0.0.1:8080",WORKER_URLS="http://127.0.0.1:9001,http://127.0.0.1:9002,http://127.0.0.1:9003")
                     gateway=subprocess.Popen([str(ROOT/"target/release/infercore")],env=env,cwd=ROOT,stdout=subprocess.DEVNULL)
                     wait_ready("http://127.0.0.1:8080/ready")

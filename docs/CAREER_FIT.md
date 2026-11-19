@@ -33,7 +33,7 @@ uses the supplied resume as reference; its claims were not independently audited
   admission, end-to-end deadlines and one safe retry to a different worker.
 - Verified overload handling, cancellation cleanup and worker crash/recovery with
   15 automated tests; recorded successful-request p50/p95/p99, throughput, errors
-  and rejections across matched three-worker routing-policy benchmarks.
+  and rejections across 45,500 measured requests in matched three-worker routing-policy benchmarks.
 
 Test-count evidence: 2 Rust unit + 5 Rust gateway + 8 Python tests. Performance
 numbers belong in a bullet only with the machine, workload and concurrency

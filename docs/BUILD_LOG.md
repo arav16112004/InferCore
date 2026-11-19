@@ -24,3 +24,12 @@ classifier to match the release checklist. No synthetic model is benchmarked.
 Verified 7 Rust and 8 Python tests, strict Clippy and formatting; Compose config
 validates. Recorded an actual SIGKILL/restart/routing-recovery demo. Native only;
 Docker daemon unavailable. See VERIFICATION.md for coverage and boundaries.
+
+## 3 — Measured routing comparison
+
+18 native runs: concurrency 1/12/48, three repeats per policy, one-second warmup
+and five-second measurements, three real ONNX workers. Preserved 45,500 measured
+request records and full environment metadata. All default-suite requests were
+200, so this suite alone does not demonstrate admission saturation. No reliable
+policy speed advantage is claimed. A separate constrained-admission experiment
+measures overload rejection with real inference. See BENCHMARKS.md.

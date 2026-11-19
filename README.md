@@ -268,6 +268,17 @@ hosts would introduce network partitions and service discovery; multiple gateway
 would lose globally consistent counters. Replication, consensus and durable data
 are separate learning projects, not implemented here.
 
+## Release checklist
+
+- [x] Three independent workers serving a trained ONNX classifier
+- [x] Round-robin and least-in-flight routing
+- [x] Bounded queues, deadlines and overload responses
+- [x] Recovery from deliberate worker termination
+- [x] Automated integration and fault-injection tests
+- [x] Recorded p50/p95/p99, throughput, errors and rejections
+- [x] Architecture and tradeoff documentation
+- [x] Public repository and reproducible terminal demo (transcript, not video)
+
 ## Learning and resume use
 
 Read [the seven-day guide](docs/LEARNING.md) for code walk-throughs, experiments,

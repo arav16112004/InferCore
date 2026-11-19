@@ -14,6 +14,9 @@ Python 3.10.14, Rust 1.91.1. Exact resolved packages: Cargo.lock and requirement
 | `docker compose config --quiet` | Passed |
 | Docker image build / execution | Not run: Docker Desktop daemon unavailable |
 | Recorded native crash demo | Completed; see demo.json and demo-terminal.log |
+| Default matched native benchmarks | 18 runs; 45,500 measured requests, all 200 |
+| Separate real overload benchmark | Two 3-second runs: 1,959 successes, 2,924 HTTP 429s, zero other errors |
+| Python dependency resolution | `pip check`: no broken requirements |
 
 Rust tests exercise: validation, body bound, untrusted client IDs, unique server
 IDs, FIFO queue capacity, overload, health responsiveness under inference load,
@@ -33,3 +36,8 @@ Real process tests restart the killed child explicitly; the separate recorded de
 exercises automatic restart by scripts/local.py. HTTP fault peers in tests are
 controlled fakes, not used as benchmark backends. Tests use relaxed wall-clock
 bounds for scheduling noise and are not formal proofs of race freedom.
+
+The demo recorded 24 concurrent successes, 80 successes during the failure burst,
+and 12 post-recovery successes. Worker 9001 was killed at t=1.759 s; it was observed
+unhealthy at t=1.823 s and healthy with a new PID at t=2.951 s. These are single-run
+observations, not guarantees of detection/recovery time or zero lost requests.
