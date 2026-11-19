@@ -1,0 +1,20 @@
+{
+  "sha256": "8be47e5ecfc57c078931ee23d33cc093f8cd361670cfbe1b63302e3b73c73619",
+  "model": "binary Iris logistic regression",
+  "train_samples": 80,
+  "test_samples": 20,
+  "test_accuracy": 1.0,
+  "split_seed": 2026,
+  "opset": 17,
+  "ir_version": 9,
+  "classes": [
+    "versicolor",
+    "virginica"
+  ],
+  "features_cm": [
+    "sepal_length",
+    "sepal_width",
+    "petal_length",
+    "petal_width"
+  ]
+}

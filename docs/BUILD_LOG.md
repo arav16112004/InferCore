@@ -11,3 +11,16 @@ Live `cargo run` + curl: `/health` returned 200; `/infer` returned 200,
 `backend: simulated`, output 10 for [1,2,3,4], and a UUID request header.
 This was a 25 ms Tokio sleep, not inference. App construction lived in lib.rs;
 startup in main.rs. Later milestones replace this implementation.
+
+## 2 — Three real workers, bounded scheduler and fault tests
+
+Added active and waiting semaphores, rotating round-robin and least-in-flight
+selection, RAII worker leases, shared monotonic deadlines, two-attempt pure
+inference retry, concurrent health probes with stale-probe protection, bounded
+Python compute queues and a separate restart supervisor. A synthetic model was
+used during implementation, then replaced with a trained binary Iris logistic
+classifier to match the release checklist. No synthetic model is benchmarked.
+
+Verified 7 Rust and 8 Python tests, strict Clippy and formatting; Compose config
+validates. Recorded an actual SIGKILL/restart/routing-recovery demo. Native only;
+Docker daemon unavailable. See VERIFICATION.md for coverage and boundaries.

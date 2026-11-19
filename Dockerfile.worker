@@ -1,0 +1,10 @@
+FROM python:3.10.14-slim-bookworm
+WORKDIR /app
+COPY requirements.lock ./
+RUN pip install --no-cache-dir -r requirements.lock
+COPY worker ./worker
+COPY models ./models
+ENV OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+USER 65534:65534
+EXPOSE 9000
+CMD ["python", "-m", "uvicorn", "worker.server:app", "--host", "0.0.0.0", "--port", "9000", "--no-access-log"]
