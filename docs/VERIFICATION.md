@@ -41,3 +41,11 @@ The demo recorded 24 concurrent successes, 80 successes during the failure burst
 and 12 post-recovery successes. Worker 9001 was killed at t=1.759 s; it was observed
 unhealthy at t=1.823 s and healthy with a new PID at t=2.951 s. These are single-run
 observations, not guarantees of detection/recovery time or zero lost requests.
+
+## Optimized release — 2026-11-22
+
+Seven Rust tests and 13 Python tests passed against the optimized native stack. Checks included release compilation, format, strict Clippy, Python package consistency, deterministic reproduction of the model selection report, and Docker Compose configuration validation. Docker Desktop's daemon was unavailable for a container run.
+
+New regression cases cover worker queue expiry before native computation, healthy-worker 429 and 504 handling with and without a successful alternate, and the complete remaining budget for a sole configured worker. The real-process tests check all three timing headers, an actual worker kill and return to rotation. HTTP cancellation keeps a job counted until its native future completes.
+
+The release comparison recorded and verified every raw HTTP sample. See [method, exclusions and results](OPTIMIZATION.md). A live native smoke test sent the same input to all three workers. Each returned approximately [0.0018481, 0.9981519] with its own request ID and timing headers.

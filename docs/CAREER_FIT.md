@@ -32,10 +32,13 @@ uses the supplied resume as reference; its claims were not independently audited
   Runtime CPU workers, with round-robin/least-in-flight scheduling, bounded
   admission, end-to-end deadlines and one safe retry to a different worker.
 - Verified overload handling, cancellation cleanup and worker crash/recovery with
-  15 automated tests; recorded successful-request p50/p95/p99, throughput, errors
-  and rejections across 45,500 measured requests in matched three-worker routing-policy benchmarks.
+  20 automated tests, including deliberately killing a worker during concurrent requests.
+- Increased median successful throughput from 4.75k to 7.78k predictions/s in a
+  local Apple M1 benchmark with three workers and 12 concurrent callers, bringing
+  p95 latency from 4.33 to 2.38 ms with zero rejections in those runs.
+  [Workload, retained pairs and limits](OPTIMIZATION.md).
 
-Test-count evidence: 2 Rust unit + 5 Rust gateway + 8 Python tests. Performance
+Test-count evidence: 2 Rust unit + 5 Rust gateway + 13 Python tests. Performance
 numbers belong in a bullet only with the machine, workload and concurrency
 available in the report. Do not claim an improvement merely because one short
 sample is faster. Do not describe this as production-scale, a distributed cluster,

@@ -1,0 +1,2144 @@
+[
+  {
+    "key": "worker-c1-baseline-1",
+    "path": "worker",
+    "concurrency": 1,
+    "variant": "baseline",
+    "repeat": 1,
+    "seconds": 2.0002831249999997,
+    "status": {
+      "200": 3435
+    },
+    "success_rps": 1717.256900819978,
+    "latency_ms": {
+      "p50": 0.6161250000000109,
+      "p95": 0.7611249999999927,
+      "p99": 0.9860409999998865
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "worker-c1-optimized-1",
+    "path": "worker",
+    "concurrency": 1,
+    "variant": "optimized",
+    "repeat": 1,
+    "seconds": 1017.693732792,
+    "status": {
+      "200": 2478
+    },
+    "success_rps": 2.4349172252458615,
+    "latency_ms": {
+      "p50": 0.21304200000008677,
+      "p95": 0.28612499999997,
+      "p99": 0.5575830000000224
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": 19,
+      "p95": 26,
+      "p99": 49
+    },
+    "ort_run_us": {
+      "p50": 8,
+      "p95": 12,
+      "p99": 24
+    }
+  },
+  {
+    "key": "worker-c1-optimized-2",
+    "path": "worker",
+    "concurrency": 1,
+    "variant": "optimized",
+    "repeat": 2,
+    "seconds": 2.000065458,
+    "status": {
+      "200": 6588
+    },
+    "success_rps": 3293.8921942023762,
+    "latency_ms": {
+      "p50": 0.22145799999998417,
+      "p95": 0.3689159999998992,
+      "p99": 0.9686670000000959
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": 19,
+      "p95": 35,
+      "p99": 95
+    },
+    "ort_run_us": {
+      "p50": 8,
+      "p95": 13,
+      "p99": 49
+    }
+  },
+  {
+    "key": "worker-c1-baseline-2",
+    "path": "worker",
+    "concurrency": 1,
+    "variant": "baseline",
+    "repeat": 2,
+    "seconds": 2.00032325,
+    "status": {
+      "200": 4282
+    },
+    "success_rps": 2140.6540167945354,
+    "latency_ms": {
+      "p50": 0.45633300000008603,
+      "p95": 0.5454589999999371,
+      "p99": 0.6940839999999753
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "worker-c1-baseline-3",
+    "path": "worker",
+    "concurrency": 1,
+    "variant": "baseline",
+    "repeat": 3,
+    "seconds": 2.0001616670000004,
+    "status": {
+      "200": 4043
+    },
+    "success_rps": 2021.3366082872735,
+    "latency_ms": {
+      "p50": 0.4599579999994603,
+      "p95": 0.6127500000002328,
+      "p99": 1.0681250000016007
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "worker-c1-optimized-3",
+    "path": "worker",
+    "concurrency": 1,
+    "variant": "optimized",
+    "repeat": 3,
+    "seconds": 2.000130208,
+    "status": {
+      "200": 8891
+    },
+    "success_rps": 4445.210599009162,
+    "latency_ms": {
+      "p50": 0.22125000000005457,
+      "p95": 0.2624580000001515,
+      "p99": 0.32179199999995944
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": 19,
+      "p95": 25,
+      "p99": 30
+    },
+    "ort_run_us": {
+      "p50": 9,
+      "p95": 11,
+      "p99": 13
+    }
+  },
+  {
+    "key": "worker-c1-optimized-4",
+    "path": "worker",
+    "concurrency": 1,
+    "variant": "optimized",
+    "repeat": 4,
+    "seconds": 2.0001793340000003,
+    "status": {
+      "200": 6980
+    },
+    "success_rps": 3489.68709022768,
+    "latency_ms": {
+      "p50": 0.2807080000000042,
+      "p95": 0.3337500000000091,
+      "p99": 0.41545799999994415
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": 23,
+      "p95": 29,
+      "p99": 32
+    },
+    "ort_run_us": {
+      "p50": 10,
+      "p95": 12,
+      "p99": 15
+    }
+  },
+  {
+    "key": "worker-c1-baseline-4",
+    "path": "worker",
+    "concurrency": 1,
+    "variant": "baseline",
+    "repeat": 4,
+    "seconds": 2.000166083,
+    "status": {
+      "200": 3412
+    },
+    "success_rps": 1705.858342964413,
+    "latency_ms": {
+      "p50": 0.5772500000000491,
+      "p95": 0.6674160000000029,
+      "p99": 0.7902500000000146
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "gateway1-c1-baseline-1",
+    "path": "gateway1",
+    "concurrency": 1,
+    "variant": "baseline",
+    "repeat": 1,
+    "seconds": 2.00291775,
+    "status": {
+      "200": 1747
+    },
+    "success_rps": 872.2275290635374,
+    "latency_ms": {
+      "p50": 0.8375829999999951,
+      "p95": 2.1562079999998787,
+      "p99": 3.727915999999823
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "gateway1-c1-optimized-1",
+    "path": "gateway1",
+    "concurrency": 1,
+    "variant": "optimized",
+    "repeat": 1,
+    "seconds": 2.0002236659999997,
+    "status": {
+      "200": 3574
+    },
+    "success_rps": 1786.800176775831,
+    "latency_ms": {
+      "p50": 0.5477919999999585,
+      "p95": 0.7272090000000162,
+      "p99": 0.8854170000001886
+    },
+    "admission_us": {
+      "p50": 0,
+      "p95": 0,
+      "p99": 0
+    },
+    "num_queue_measurements": 3574,
+    "worker_queue_us": {
+      "p50": 36,
+      "p95": 46,
+      "p99": 59
+    },
+    "ort_run_us": {
+      "p50": 15,
+      "p95": 23,
+      "p99": 30
+    }
+  },
+  {
+    "key": "gateway1-c1-optimized-2",
+    "path": "gateway1",
+    "concurrency": 1,
+    "variant": "optimized",
+    "repeat": 2,
+    "seconds": 2.000276375,
+    "status": {
+      "200": 4882
+    },
+    "success_rps": 2440.662730918871,
+    "latency_ms": {
+      "p50": 0.402042000000165,
+      "p95": 0.48616600000002563,
+      "p99": 0.5531250000001364
+    },
+    "admission_us": {
+      "p50": 0,
+      "p95": 0,
+      "p99": 0
+    },
+    "num_queue_measurements": 4882,
+    "worker_queue_us": {
+      "p50": 26,
+      "p95": 30,
+      "p99": 34
+    },
+    "ort_run_us": {
+      "p50": 10,
+      "p95": 14,
+      "p99": 17
+    }
+  },
+  {
+    "key": "gateway1-c1-baseline-2",
+    "path": "gateway1",
+    "concurrency": 1,
+    "variant": "baseline",
+    "repeat": 2,
+    "seconds": 2.000237542,
+    "status": {
+      "200": 2368
+    },
+    "success_rps": 1183.8593918361723,
+    "latency_ms": {
+      "p50": 0.8138329999999314,
+      "p95": 1.0175409999999374,
+      "p99": 1.6390829999999141
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "gateway1-c1-baseline-3",
+    "path": "gateway1",
+    "concurrency": 1,
+    "variant": "baseline",
+    "repeat": 3,
+    "seconds": 2.0003994159999996,
+    "status": {
+      "200": 2677
+    },
+    "success_rps": 1338.2327442151186,
+    "latency_ms": {
+      "p50": 0.7352920000000722,
+      "p95": 0.8648749999999836,
+      "p99": 1.077541999999994
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "gateway1-c1-optimized-3",
+    "path": "gateway1",
+    "concurrency": 1,
+    "variant": "optimized",
+    "repeat": 3,
+    "seconds": 2.000014084,
+    "status": {
+      "200": 5142
+    },
+    "success_rps": 2570.9818951454945,
+    "latency_ms": {
+      "p50": 0.3829159999999092,
+      "p95": 0.4418749999999818,
+      "p99": 0.5258750000000418
+    },
+    "admission_us": {
+      "p50": 0,
+      "p95": 0,
+      "p99": 0
+    },
+    "num_queue_measurements": 5142,
+    "worker_queue_us": {
+      "p50": 25,
+      "p95": 30,
+      "p99": 35
+    },
+    "ort_run_us": {
+      "p50": 10,
+      "p95": 13,
+      "p99": 17
+    }
+  },
+  {
+    "key": "gateway1-c1-optimized-4",
+    "path": "gateway1",
+    "concurrency": 1,
+    "variant": "optimized",
+    "repeat": 4,
+    "seconds": 2.0000495000000003,
+    "status": {
+      "200": 5154
+    },
+    "success_rps": 2576.9362208285343,
+    "latency_ms": {
+      "p50": 0.3842920000001868,
+      "p95": 0.45799999999997,
+      "p99": 0.5193749999999682
+    },
+    "admission_us": {
+      "p50": 0,
+      "p95": 0,
+      "p99": 0
+    },
+    "num_queue_measurements": 5154,
+    "worker_queue_us": {
+      "p50": 26,
+      "p95": 30,
+      "p99": 34
+    },
+    "ort_run_us": {
+      "p50": 10,
+      "p95": 14,
+      "p99": 17
+    }
+  },
+  {
+    "key": "gateway1-c1-baseline-4",
+    "path": "gateway1",
+    "concurrency": 1,
+    "variant": "baseline",
+    "repeat": 4,
+    "seconds": 2.0002128750000003,
+    "status": {
+      "200": 3017
+    },
+    "success_rps": 1508.339456119139,
+    "latency_ms": {
+      "p50": 0.6307500000000346,
+      "p95": 0.8232920000000377,
+      "p99": 0.9996670000000449
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "worker-c12-baseline-1",
+    "path": "worker",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 1,
+    "seconds": 2.0019884169999997,
+    "status": {
+      "429": 10314,
+      "200": 393
+    },
+    "success_rps": 196.30483206736758,
+    "latency_ms": {
+      "p50": 12.623833000000104,
+      "p95": 23.013792000000194,
+      "p99": 28.40795799999978
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "worker-c12-optimized-1",
+    "path": "worker",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 1,
+    "seconds": 2.000350625,
+    "status": {
+      "429": 20181,
+      "200": 2955
+    },
+    "success_rps": 1477.241021183474,
+    "latency_ms": {
+      "p50": 2.316084000000046,
+      "p95": 4.551832999999988,
+      "p99": 8.317583000000013
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": 328,
+      "p95": 2326,
+      "p99": 6174
+    },
+    "ort_run_us": {
+      "p50": 11,
+      "p95": 79,
+      "p99": 1297
+    }
+  },
+  {
+    "key": "worker-c12-optimized-2",
+    "path": "worker",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 2,
+    "seconds": 594.095778458,
+    "status": {
+      "429": 19515,
+      "200": 2904,
+      "0": 2
+    },
+    "success_rps": 4.888100715910574,
+    "latency_ms": {
+      "p50": 2.3585840000000644,
+      "p95": 4.531582999999955,
+      "p99": 7.221624999999904
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": 341,
+      "p95": 2314,
+      "p99": 4660
+    },
+    "ort_run_us": {
+      "p50": 11,
+      "p95": 306,
+      "p99": 1144
+    }
+  },
+  {
+    "key": "worker-c12-baseline-2",
+    "path": "worker",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 2,
+    "seconds": 2.002239,
+    "status": {
+      "429": 9520,
+      "200": 445
+    },
+    "success_rps": 222.25118979302673,
+    "latency_ms": {
+      "p50": 11.696999999999889,
+      "p95": 21.578458000000182,
+      "p99": 26.51366700000017
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "worker-c12-baseline-3",
+    "path": "worker",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 3,
+    "seconds": 2.002993292,
+    "status": {
+      "429": 8666,
+      "200": 589
+    },
+    "success_rps": 294.0598964322442,
+    "latency_ms": {
+      "p50": 10.525916999999936,
+      "p95": 13.231915999999956,
+      "p99": 15.21870899999999
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "worker-c12-optimized-3",
+    "path": "worker",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 3,
+    "seconds": 2.0011067500000004,
+    "status": {
+      "429": 16649,
+      "200": 800
+    },
+    "success_rps": 399.778772421811,
+    "latency_ms": {
+      "p50": 3.1918750000004366,
+      "p95": 25.236374999999953,
+      "p99": 46.46054200000003
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": 411,
+      "p95": 19689,
+      "p99": 36178
+    },
+    "ort_run_us": {
+      "p50": 27,
+      "p95": 5814,
+      "p99": 16545
+    }
+  },
+  {
+    "key": "worker-c12-optimized-4",
+    "path": "worker",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 4,
+    "seconds": 2.000764833,
+    "status": {
+      "429": 14856,
+      "200": 312
+    },
+    "success_rps": 155.94036583109016,
+    "latency_ms": {
+      "p50": 7.96670800000004,
+      "p95": 47.599917000000005,
+      "p99": 83.77074999999991
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": 2025,
+      "p95": 31781,
+      "p99": 73597
+    },
+    "ort_run_us": {
+      "p50": 63,
+      "p95": 18852,
+      "p99": 30760
+    }
+  },
+  {
+    "key": "worker-c12-baseline-4",
+    "path": "worker",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 4,
+    "seconds": 2.003930042,
+    "status": {
+      "429": 4897,
+      "200": 301
+    },
+    "success_rps": 150.20484432659651,
+    "latency_ms": {
+      "p50": 18.461832999999956,
+      "p95": 30.268167000000176,
+      "p99": 44.9805409999999
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "gateway1-c12-baseline-1",
+    "path": "gateway1",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 1,
+    "seconds": 2.006021084,
+    "status": {
+      "200": 3650
+    },
+    "success_rps": 1819.5222518408984,
+    "latency_ms": {
+      "p50": 6.540958000000046,
+      "p95": 9.948541999999861,
+      "p99": 13.695707999999968
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "gateway1-c12-optimized-1",
+    "path": "gateway1",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 1,
+    "seconds": 2.003296084,
+    "status": {
+      "200": 6755
+    },
+    "success_rps": 3371.9428964849913,
+    "latency_ms": {
+      "p50": 2.5174580000000333,
+      "p95": 8.801833999999872,
+      "p99": 15.021458000000166
+    },
+    "admission_us": {
+      "p50": 1596,
+      "p95": 1872,
+      "p99": 2159
+    },
+    "num_queue_measurements": 6755,
+    "worker_queue_us": {
+      "p50": 59,
+      "p95": 196,
+      "p99": 213
+    },
+    "ort_run_us": {
+      "p50": 24,
+      "p95": 186,
+      "p99": 204
+    }
+  },
+  {
+    "key": "gateway1-c12-optimized-2",
+    "path": "gateway1",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 2,
+    "seconds": 2.003547875,
+    "status": {
+      "200": 6562
+    },
+    "success_rps": 3275.190017608139,
+    "latency_ms": {
+      "p50": 2.5637500000002547,
+      "p95": 8.701208000000065,
+      "p99": 14.213375000000042
+    },
+    "admission_us": {
+      "p50": 1650,
+      "p95": 1931,
+      "p99": 2653
+    },
+    "num_queue_measurements": 6562,
+    "worker_queue_us": {
+      "p50": 61,
+      "p95": 198,
+      "p99": 232
+    },
+    "ort_run_us": {
+      "p50": 24,
+      "p95": 187,
+      "p99": 206
+    }
+  },
+  {
+    "key": "gateway1-c12-baseline-2",
+    "path": "gateway1",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 2,
+    "seconds": 2.005857916,
+    "status": {
+      "200": 3394
+    },
+    "success_rps": 1692.0440739731837,
+    "latency_ms": {
+      "p50": 6.9034999999998945,
+      "p95": 10.09962500000006,
+      "p99": 12.391250000000014
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "gateway1-c12-baseline-3",
+    "path": "gateway1",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 3,
+    "seconds": 2.0054892079999997,
+    "status": {
+      "200": 3739
+    },
+    "success_rps": 1864.3830069416163,
+    "latency_ms": {
+      "p50": 6.455249999999978,
+      "p95": 9.71729200000027,
+      "p99": 12.581332999999972
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "gateway1-c12-optimized-3",
+    "path": "gateway1",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 3,
+    "seconds": 2.002446042,
+    "status": {
+      "200": 7727
+    },
+    "success_rps": 3858.7806302548056,
+    "latency_ms": {
+      "p50": 2.3358329999999796,
+      "p95": 6.5877080000000205,
+      "p99": 10.509792000000061
+    },
+    "admission_us": {
+      "p50": 1376,
+      "p95": 1574,
+      "p99": 1749
+    },
+    "num_queue_measurements": 7727,
+    "worker_queue_us": {
+      "p50": 47,
+      "p95": 158,
+      "p99": 176
+    },
+    "ort_run_us": {
+      "p50": 19,
+      "p95": 154,
+      "p99": 173
+    }
+  },
+  {
+    "key": "gateway1-c12-optimized-4",
+    "path": "gateway1",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 4,
+    "seconds": 2.002134958,
+    "status": {
+      "200": 8805
+    },
+    "success_rps": 4397.805435051996,
+    "latency_ms": {
+      "p50": 2.207208000000037,
+      "p95": 6.58620800000017,
+      "p99": 10.41070800000034
+    },
+    "admission_us": {
+      "p50": 1065,
+      "p95": 1632,
+      "p99": 2035
+    },
+    "num_queue_measurements": 8805,
+    "worker_queue_us": {
+      "p50": 43,
+      "p95": 170,
+      "p99": 185
+    },
+    "ort_run_us": {
+      "p50": 15,
+      "p95": 161,
+      "p99": 177
+    }
+  },
+  {
+    "key": "gateway1-c12-baseline-4",
+    "path": "gateway1",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 4,
+    "seconds": 998.420006375,
+    "status": {
+      "200": 562,
+      "0": 10
+    },
+    "success_rps": 0.5628893616029129,
+    "latency_ms": {
+      "p50": 3.2387919999999895,
+      "p95": 7.925958000000037,
+      "p99": 12.245542
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "round-robin-c12-baseline-1",
+    "path": "round-robin",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 1,
+    "seconds": 2.001745042,
+    "status": {
+      "200": 9506
+    },
+    "success_rps": 4748.8565229577325,
+    "latency_ms": {
+      "p50": 2.1152500000002874,
+      "p95": 4.326958000000104,
+      "p99": 7.959916000000021
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "round-robin-c12-optimized-1",
+    "path": "round-robin",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 1,
+    "seconds": 2.000783292,
+    "status": {
+      "200": 15741
+    },
+    "success_rps": 7867.41875691353,
+    "latency_ms": {
+      "p50": 1.432207999999946,
+      "p95": 2.2477499999999964,
+      "p99": 3.1603340000000344
+    },
+    "admission_us": {
+      "p50": 503,
+      "p95": 829,
+      "p99": 1094
+    },
+    "num_queue_measurements": 15741,
+    "worker_queue_us": {
+      "p50": 86,
+      "p95": 309,
+      "p99": 483
+    },
+    "ort_run_us": {
+      "p50": 19,
+      "p95": 179,
+      "p99": 337
+    }
+  },
+  {
+    "key": "round-robin-c12-optimized-2",
+    "path": "round-robin",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 2,
+    "seconds": 2.0007925409999996,
+    "status": {
+      "200": 15644
+    },
+    "success_rps": 7818.901599953537,
+    "latency_ms": {
+      "p50": 1.0818750000000819,
+      "p95": 2.7486670000000686,
+      "p99": 7.532375000000002
+    },
+    "admission_us": {
+      "p50": 390,
+      "p95": 808,
+      "p99": 2060
+    },
+    "num_queue_measurements": 15644,
+    "worker_queue_us": {
+      "p50": 89,
+      "p95": 273,
+      "p99": 633
+    },
+    "ort_run_us": {
+      "p50": 14,
+      "p95": 75,
+      "p99": 169
+    }
+  },
+  {
+    "key": "round-robin-c12-baseline-2",
+    "path": "round-robin",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 2,
+    "seconds": 365.505403,
+    "status": {
+      "200": 10413,
+      "0": 10
+    },
+    "success_rps": 28.489318939014424,
+    "latency_ms": {
+      "p50": 2.0950420000001486,
+      "p95": 3.361167000000023,
+      "p99": 4.984707999999955
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "round-robin-c12-baseline-3",
+    "path": "round-robin",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 3,
+    "seconds": 2.001666833,
+    "status": {
+      "200": 9816
+    },
+    "success_rps": 4903.9129979929085,
+    "latency_ms": {
+      "p50": 2.077291999999943,
+      "p95": 4.2650830000002316,
+      "p99": 9.621333999999933
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "round-robin-c12-optimized-3",
+    "path": "round-robin",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 3,
+    "seconds": 2.0010558329999997,
+    "status": {
+      "200": 15573
+    },
+    "success_rps": 7782.3915470928305,
+    "latency_ms": {
+      "p50": 1.4279590000001008,
+      "p95": 2.3763750000000528,
+      "p99": 3.3297499999998763
+    },
+    "admission_us": {
+      "p50": 509,
+      "p95": 863,
+      "p99": 1271
+    },
+    "num_queue_measurements": 15573,
+    "worker_queue_us": {
+      "p50": 85,
+      "p95": 282,
+      "p99": 457
+    },
+    "ort_run_us": {
+      "p50": 20,
+      "p95": 181,
+      "p99": 291
+    }
+  },
+  {
+    "key": "round-robin-c12-optimized-4",
+    "path": "round-robin",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 4,
+    "seconds": 2.003327916,
+    "status": {
+      "200": 10922
+    },
+    "success_rps": 5451.928220422203,
+    "latency_ms": {
+      "p50": 2.0360829999999623,
+      "p95": 3.4275840000000244,
+      "p99": 5.4705000000003565
+    },
+    "admission_us": {
+      "p50": 747,
+      "p95": 1269,
+      "p99": 1804
+    },
+    "num_queue_measurements": 10922,
+    "worker_queue_us": {
+      "p50": 161,
+      "p95": 416,
+      "p99": 688
+    },
+    "ort_run_us": {
+      "p50": 30,
+      "p95": 240,
+      "p99": 363
+    }
+  },
+  {
+    "key": "round-robin-c12-baseline-4",
+    "path": "round-robin",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 4,
+    "seconds": 2.005440416,
+    "status": {
+      "200": 4084
+    },
+    "success_rps": 2036.4604041170378,
+    "latency_ms": {
+      "p50": 5.531542000000172,
+      "p95": 8.724875000000111,
+      "p99": 12.48516699999982
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "least-in-flight-c12-baseline-1",
+    "path": "least-in-flight",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 1,
+    "seconds": 2.004819167,
+    "status": {
+      "200": 3756
+    },
+    "success_rps": 1873.4856798184233,
+    "latency_ms": {
+      "p50": 6.149083000000019,
+      "p95": 8.496541999999863,
+      "p99": 10.401374999999916
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "least-in-flight-c12-optimized-1",
+    "path": "least-in-flight",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 1,
+    "seconds": 2.002995125,
+    "status": {
+      "200": 6004
+    },
+    "success_rps": 2997.5110398733495,
+    "latency_ms": {
+      "p50": 3.6300830000000133,
+      "p95": 6.160083999999642,
+      "p99": 8.553792000000158
+    },
+    "admission_us": {
+      "p50": 1255,
+      "p95": 2122,
+      "p99": 2858
+    },
+    "num_queue_measurements": 6004,
+    "worker_queue_us": {
+      "p50": 314,
+      "p95": 720,
+      "p99": 1161
+    },
+    "ort_run_us": {
+      "p50": 49,
+      "p95": 173,
+      "p99": 579
+    }
+  },
+  {
+    "key": "least-in-flight-c12-optimized-2",
+    "path": "least-in-flight",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 2,
+    "seconds": 2.002594708,
+    "status": {
+      "200": 7052
+    },
+    "success_rps": 3521.4314568137765,
+    "latency_ms": {
+      "p50": 3.331916999999976,
+      "p95": 4.27475000000004,
+      "p99": 5.399084000000016
+    },
+    "admission_us": {
+      "p50": 1232,
+      "p95": 1708,
+      "p99": 2093
+    },
+    "num_queue_measurements": 7052,
+    "worker_queue_us": {
+      "p50": 181,
+      "p95": 616,
+      "p99": 806
+    },
+    "ort_run_us": {
+      "p50": 77,
+      "p95": 544,
+      "p99": 651
+    }
+  },
+  {
+    "key": "least-in-flight-c12-baseline-2",
+    "path": "least-in-flight",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 2,
+    "seconds": 2.0030005,
+    "status": {
+      "200": 4518
+    },
+    "success_rps": 2255.61601207788,
+    "latency_ms": {
+      "p50": 5.341584000000012,
+      "p95": 6.705957999999896,
+      "p99": 7.6032080000002225
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "least-in-flight-c12-baseline-3",
+    "path": "least-in-flight",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 3,
+    "seconds": 2.0058388330000003,
+    "status": {
+      "200": 4402
+    },
+    "success_rps": 2194.5930687842056,
+    "latency_ms": {
+      "p50": 5.286583000000064,
+      "p95": 7.139791999999943,
+      "p99": 9.93204199999991
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "least-in-flight-c12-optimized-3",
+    "path": "least-in-flight",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 3,
+    "seconds": 2.002090625,
+    "status": {
+      "200": 7897
+    },
+    "success_rps": 3944.3768935284834,
+    "latency_ms": {
+      "p50": 3.0524999999997817,
+      "p95": 3.7485830000000533,
+      "p99": 4.197583000000122
+    },
+    "admission_us": {
+      "p50": 1104,
+      "p95": 1477,
+      "p99": 1698
+    },
+    "num_queue_measurements": 7897,
+    "worker_queue_us": {
+      "p50": 161,
+      "p95": 554,
+      "p99": 672
+    },
+    "ort_run_us": {
+      "p50": 72,
+      "p95": 519,
+      "p99": 617
+    }
+  },
+  {
+    "key": "least-in-flight-c12-optimized-4",
+    "path": "least-in-flight",
+    "concurrency": 12,
+    "variant": "optimized",
+    "repeat": 4,
+    "seconds": 2.0036321249999998,
+    "status": {
+      "200": 7924
+    },
+    "success_rps": 3954.8178036923823,
+    "latency_ms": {
+      "p50": 2.9654999999997926,
+      "p95": 3.877542000000176,
+      "p99": 4.95291700000007
+    },
+    "admission_us": {
+      "p50": 1075,
+      "p95": 1523,
+      "p99": 1879
+    },
+    "num_queue_measurements": 7924,
+    "worker_queue_us": {
+      "p50": 162,
+      "p95": 555,
+      "p99": 690
+    },
+    "ort_run_us": {
+      "p50": 66,
+      "p95": 506,
+      "p99": 606
+    }
+  },
+  {
+    "key": "least-in-flight-c12-baseline-4",
+    "path": "least-in-flight",
+    "concurrency": 12,
+    "variant": "baseline",
+    "repeat": 4,
+    "seconds": 2.004875625,
+    "status": {
+      "200": 4795
+    },
+    "success_rps": 2391.669558055503,
+    "latency_ms": {
+      "p50": 4.846125000000029,
+      "p95": 6.425334000000021,
+      "p99": 7.1886670000000095
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "round-robin-c48-baseline-1",
+    "path": "round-robin",
+    "concurrency": 48,
+    "variant": "baseline",
+    "repeat": 1,
+    "seconds": 2.009720584,
+    "status": {
+      "429": 11539,
+      "200": 3514
+    },
+    "success_rps": 1748.501770831243,
+    "latency_ms": {
+      "p50": 15.378500000000031,
+      "p95": 19.54316700000004,
+      "p99": 28.308459000000084
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "round-robin-c48-optimized-1",
+    "path": "round-robin",
+    "concurrency": 48,
+    "variant": "optimized",
+    "repeat": 1,
+    "seconds": 2.0048985,
+    "status": {
+      "429": 7809,
+      "200": 7730
+    },
+    "success_rps": 3855.556777562555,
+    "latency_ms": {
+      "p50": 9.269249999999829,
+      "p95": 11.571707999999944,
+      "p99": 15.109791999999743
+    },
+    "admission_us": {
+      "p50": 2871,
+      "p95": 3677,
+      "p99": 4163
+    },
+    "num_queue_measurements": 7730,
+    "worker_queue_us": {
+      "p50": 187,
+      "p95": 584,
+      "p99": 687
+    },
+    "ort_run_us": {
+      "p50": 61,
+      "p95": 488,
+      "p99": 605
+    }
+  },
+  {
+    "key": "round-robin-c48-optimized-2",
+    "path": "round-robin",
+    "concurrency": 48,
+    "variant": "optimized",
+    "repeat": 2,
+    "seconds": 2.0045502500000003,
+    "status": {
+      "429": 7474,
+      "200": 6948
+    },
+    "success_rps": 3466.11415702849,
+    "latency_ms": {
+      "p50": 10.233791999999994,
+      "p95": 12.56162500000005,
+      "p99": 14.748499999999922
+    },
+    "admission_us": {
+      "p50": 3234,
+      "p95": 4095,
+      "p99": 5167
+    },
+    "num_queue_measurements": 6948,
+    "worker_queue_us": {
+      "p50": 195,
+      "p95": 629,
+      "p99": 779
+    },
+    "ort_run_us": {
+      "p50": 76,
+      "p95": 566,
+      "p99": 687
+    }
+  },
+  {
+    "key": "round-robin-c48-baseline-2",
+    "path": "round-robin",
+    "concurrency": 48,
+    "variant": "baseline",
+    "repeat": 2,
+    "seconds": 2.002646291,
+    "status": {
+      "429": 17990,
+      "200": 4508
+    },
+    "success_rps": 2251.0215709380104,
+    "latency_ms": {
+      "p50": 13.717374999999947,
+      "p95": 18.571750000000065,
+      "p99": 22.458707999999888
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "round-robin-c48-baseline-3",
+    "path": "round-robin",
+    "concurrency": 48,
+    "variant": "baseline",
+    "repeat": 3,
+    "seconds": 935.6751064590001,
+    "status": {
+      "429": 12106,
+      "200": 2434,
+      "0": 44
+    },
+    "success_rps": 2.6013302942421013,
+    "latency_ms": {
+      "p50": 5.606958000000077,
+      "p95": 7.502375000000029,
+      "p99": 9.488333000000011
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "round-robin-c48-optimized-3",
+    "path": "round-robin",
+    "concurrency": 48,
+    "variant": "optimized",
+    "repeat": 3,
+    "seconds": 2.0012835840000003,
+    "status": {
+      "429": 23852,
+      "200": 12916
+    },
+    "success_rps": 6453.857965588548,
+    "latency_ms": {
+      "p50": 3.9522910000000593,
+      "p95": 10.226915999999846,
+      "p99": 20.304125000000113
+    },
+    "admission_us": {
+      "p50": 1255,
+      "p95": 3779,
+      "p99": 8330
+    },
+    "num_queue_measurements": 12916,
+    "worker_queue_us": {
+      "p50": 76,
+      "p95": 357,
+      "p99": 756
+    },
+    "ort_run_us": {
+      "p50": 16,
+      "p95": 128,
+      "p99": 270
+    }
+  },
+  {
+    "key": "round-robin-c48-optimized-4",
+    "path": "round-robin",
+    "concurrency": 48,
+    "variant": "optimized",
+    "repeat": 4,
+    "seconds": 2.001398208,
+    "status": {
+      "429": 30239,
+      "200": 17939
+    },
+    "success_rps": 8963.233767420263,
+    "latency_ms": {
+      "p50": 3.452208000000155,
+      "p95": 4.625667000000021,
+      "p99": 7.73233300000004
+    },
+    "admission_us": {
+      "p50": 1231,
+      "p95": 1588,
+      "p99": 2078
+    },
+    "num_queue_measurements": 17939,
+    "worker_queue_us": {
+      "p50": 73,
+      "p95": 235,
+      "p99": 365
+    },
+    "ort_run_us": {
+      "p50": 16,
+      "p95": 159,
+      "p99": 270
+    }
+  },
+  {
+    "key": "round-robin-c48-baseline-4",
+    "path": "round-robin",
+    "concurrency": 48,
+    "variant": "baseline",
+    "repeat": 4,
+    "seconds": 2.002691541,
+    "status": {
+      "429": 42648,
+      "200": 7988
+    },
+    "success_rps": 3988.632216427782,
+    "latency_ms": {
+      "p50": 5.532666999999947,
+      "p95": 10.48720800000001,
+      "p99": 20.43629199999998
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "least-in-flight-c48-baseline-1",
+    "path": "least-in-flight",
+    "concurrency": 48,
+    "variant": "baseline",
+    "repeat": 1,
+    "seconds": 72.39439066599999,
+    "status": {
+      "429": 29193,
+      "200": 5847,
+      "0": 45
+    },
+    "success_rps": 80.76592600904426,
+    "latency_ms": {
+      "p50": 5.616708000000017,
+      "p95": 7.192207999999937,
+      "p99": 9.680000000000064
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "least-in-flight-c48-optimized-1",
+    "path": "least-in-flight",
+    "concurrency": 48,
+    "variant": "optimized",
+    "repeat": 1,
+    "seconds": 2.001332875,
+    "status": {
+      "429": 29068,
+      "200": 16304
+    },
+    "success_rps": 8146.570819709339,
+    "latency_ms": {
+      "p50": 3.482499999999618,
+      "p95": 6.036333999999897,
+      "p99": 11.410041000000092
+    },
+    "admission_us": {
+      "p50": 1257,
+      "p95": 2031,
+      "p99": 4272
+    },
+    "num_queue_measurements": 16304,
+    "worker_queue_us": {
+      "p50": 85,
+      "p95": 282,
+      "p99": 506
+    },
+    "ort_run_us": {
+      "p50": 16,
+      "p95": 148,
+      "p99": 268
+    }
+  },
+  {
+    "key": "least-in-flight-c48-optimized-2",
+    "path": "least-in-flight",
+    "concurrency": 48,
+    "variant": "optimized",
+    "repeat": 2,
+    "seconds": 2.002524583,
+    "status": {
+      "429": 21406,
+      "200": 13367
+    },
+    "success_rps": 6675.074110688208,
+    "latency_ms": {
+      "p50": 4.561709000000064,
+      "p95": 6.224290999999994,
+      "p99": 13.718000000000075
+    },
+    "admission_us": {
+      "p50": 1595,
+      "p95": 2146,
+      "p99": 3455
+    },
+    "num_queue_measurements": 13367,
+    "worker_queue_us": {
+      "p50": 111,
+      "p95": 327,
+      "p99": 463
+    },
+    "ort_run_us": {
+      "p50": 25,
+      "p95": 227,
+      "p99": 360
+    }
+  },
+  {
+    "key": "least-in-flight-c48-baseline-2",
+    "path": "least-in-flight",
+    "concurrency": 48,
+    "variant": "baseline",
+    "repeat": 2,
+    "seconds": 2.006701042,
+    "status": {
+      "429": 18697,
+      "200": 4721
+    },
+    "success_rps": 2352.6175056423776,
+    "latency_ms": {
+      "p50": 11.089334000000008,
+      "p95": 13.44295800000009,
+      "p99": 14.873207999999977
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "least-in-flight-c48-baseline-3",
+    "path": "least-in-flight",
+    "concurrency": 48,
+    "variant": "baseline",
+    "repeat": 3,
+    "seconds": 2.00620975,
+    "status": {
+      "429": 13162,
+      "200": 4195
+    },
+    "success_rps": 2091.00768252173,
+    "latency_ms": {
+      "p50": 13.189583000000084,
+      "p95": 16.500790999999708,
+      "p99": 19.323791999999912
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  },
+  {
+    "key": "least-in-flight-c48-optimized-3",
+    "path": "least-in-flight",
+    "concurrency": 48,
+    "variant": "optimized",
+    "repeat": 3,
+    "seconds": 281.101789208,
+    "status": {
+      "429": 18241,
+      "200": 10406,
+      "0": 20
+    },
+    "success_rps": 37.01861887581273,
+    "latency_ms": {
+      "p50": 3.362083999999868,
+      "p95": 4.523458000000005,
+      "p99": 6.135540999999876
+    },
+    "admission_us": {
+      "p50": 1208,
+      "p95": 1537,
+      "p99": 1834
+    },
+    "num_queue_measurements": 10406,
+    "worker_queue_us": {
+      "p50": 83,
+      "p95": 240,
+      "p99": 362
+    },
+    "ort_run_us": {
+      "p50": 16,
+      "p95": 150,
+      "p99": 253
+    }
+  },
+  {
+    "key": "least-in-flight-c48-optimized-4",
+    "path": "least-in-flight",
+    "concurrency": 48,
+    "variant": "optimized",
+    "repeat": 4,
+    "seconds": 2.001459041,
+    "status": {
+      "200": 14060,
+      "429": 29567
+    },
+    "success_rps": 7024.87520952471,
+    "latency_ms": {
+      "p50": 3.6169589999999516,
+      "p95": 8.196540999999911,
+      "p99": 18.214417000000026
+    },
+    "admission_us": {
+      "p50": 1284,
+      "p95": 2303,
+      "p99": 8802
+    },
+    "num_queue_measurements": 14060,
+    "worker_queue_us": {
+      "p50": 84,
+      "p95": 305,
+      "p99": 584
+    },
+    "ort_run_us": {
+      "p50": 16,
+      "p95": 147,
+      "p99": 273
+    }
+  },
+  {
+    "key": "least-in-flight-c48-baseline-4",
+    "path": "least-in-flight",
+    "concurrency": 48,
+    "variant": "baseline",
+    "repeat": 4,
+    "seconds": 2.0037122089999997,
+    "status": {
+      "429": 33099,
+      "200": 6869
+    },
+    "success_rps": 3428.13701945158,
+    "latency_ms": {
+      "p50": 7.0479159999999865,
+      "p95": 9.53537499999993,
+      "p99": 15.59166700000003
+    },
+    "admission_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "num_queue_measurements": 0,
+    "worker_queue_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    },
+    "ort_run_us": {
+      "p50": null,
+      "p95": null,
+      "p99": null
+    }
+  }
+]

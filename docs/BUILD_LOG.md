@@ -33,3 +33,7 @@ request records and full environment metadata. All default-suite requests were
 200, so this suite alone does not demonstrate admission saturation. No reliable
 policy speed advantage is claimed. A separate constrained-admission experiment
 measures overload rejection with real inference. See BENCHMARKS.md.
+
+## 4 — Model selection and serving optimization
+
+Standardized logistic regression with C=10, folded into the same five ONNX operations, improved nested validation log loss with unchanged aggregate accuracy. The serving change removed training imports at worker boot, redundant scheduling allocations, and extra Python dispatch. Each worker uses one dedicated executor thread; Rust handles healthy workers' backpressure and expiry responses separately from connection failures. The comparative study uses the original release binary and identical ONNX bytes for both stacks. See [optimization measurements](OPTIMIZATION.md) and [release verification](VERIFICATION.md).
