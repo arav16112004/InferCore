@@ -1,9 +1,9 @@
 FROM python:3.10.14-slim-bookworm
 WORKDIR /app
-COPY requirements.lock ./
-RUN pip install --no-cache-dir -r requirements.lock
+COPY requirements.worker.lock ./
+RUN pip install --no-cache-dir -r requirements.worker.lock
 COPY worker ./worker
-COPY models ./models
+COPY models/iris_logistic.onnx ./models/iris_logistic.onnx
 ENV OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 USER 65534:65534
 EXPOSE 9000

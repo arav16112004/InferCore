@@ -1,0 +1,308 @@
+{
+  "sklearn": "1.5.2",
+  "training_rows": 80,
+  "original_split_seed": 2026,
+  "selection_metric": "inner validation log loss (lower is better)",
+  "full_training_cv": [
+    {
+      "standardize": false,
+      "C": 0.1,
+      "log_loss": 0.40947697916066134,
+      "correct": 73,
+      "samples": 80
+    },
+    {
+      "standardize": false,
+      "C": 1.0,
+      "log_loss": 0.21433218853438682,
+      "correct": 76,
+      "samples": 80
+    },
+    {
+      "standardize": false,
+      "C": 10.0,
+      "log_loss": 0.12782529911126705,
+      "correct": 75,
+      "samples": 80
+    },
+    {
+      "standardize": true,
+      "C": 0.1,
+      "log_loss": 0.30962085253787847,
+      "correct": 75,
+      "samples": 80
+    },
+    {
+      "standardize": true,
+      "C": 1.0,
+      "log_loss": 0.15510743458554058,
+      "correct": 75,
+      "samples": 80
+    },
+    {
+      "standardize": true,
+      "C": 10.0,
+      "log_loss": 0.11587258248559704,
+      "correct": 76,
+      "samples": 80
+    }
+  ],
+  "final_configuration": {
+    "standardize": true,
+    "C": 10.0
+  },
+  "nested_outer_folds": [
+    {
+      "outer_seed": 4101,
+      "fold": 0,
+      "standardize": false,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.13708018577751402,
+        "correct": 16,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.055004846630799485,
+        "correct": 16,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4101,
+      "fold": 1,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.11806727781108152,
+        "correct": 16,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.06977064715628566,
+        "correct": 16,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4101,
+      "fold": 2,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.283341534730665,
+        "correct": 16,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.0732402405937525,
+        "correct": 16,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4101,
+      "fold": 3,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.21632023644579917,
+        "correct": 15,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.19024175569992302,
+        "correct": 14,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4101,
+      "fold": 4,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.3575063623382714,
+        "correct": 13,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.25045041377918487,
+        "correct": 13,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4102,
+      "fold": 0,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.37185582089680275,
+        "correct": 13,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.2805609206848284,
+        "correct": 14,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4102,
+      "fold": 1,
+      "standardize": false,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.23641280838640866,
+        "correct": 15,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.112015112737364,
+        "correct": 15,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4102,
+      "fold": 2,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.19979670134008176,
+        "correct": 15,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.19658119703433677,
+        "correct": 15,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4102,
+      "fold": 3,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.14803193603522596,
+        "correct": 16,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.027692907429164543,
+        "correct": 16,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4102,
+      "fold": 4,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.16171802805704205,
+        "correct": 16,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.03057024982883986,
+        "correct": 16,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4103,
+      "fold": 0,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.2016169085091273,
+        "correct": 15,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.16691118394157148,
+        "correct": 15,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4103,
+      "fold": 1,
+      "standardize": false,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.2086199280054774,
+        "correct": 15,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.09121657614315538,
+        "correct": 15,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4103,
+      "fold": 2,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.20348141376456436,
+        "correct": 16,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.09278885194904898,
+        "correct": 16,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4103,
+      "fold": 3,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.19957279755338087,
+        "correct": 15,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.06960122173785865,
+        "correct": 16,
+        "samples": 16
+      }
+    },
+    {
+      "outer_seed": 4103,
+      "fold": 4,
+      "standardize": true,
+      "C": 10.0,
+      "baseline": {
+        "log_loss": 0.25855535803680485,
+        "correct": 15,
+        "samples": 16
+      },
+      "selected": {
+        "log_loss": 0.18661993976531258,
+        "correct": 14,
+        "samples": 16
+      }
+    }
+  ],
+  "nested_aggregate": {
+    "baseline": {
+      "log_loss": 0.22013181984588315,
+      "correct": 227,
+      "evaluations": 240
+    },
+    "selected": {
+      "log_loss": 0.12621773767409508,
+      "correct": 227,
+      "evaluations": 240
+    }
+  }
+}

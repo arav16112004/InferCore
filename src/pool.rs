@@ -1,7 +1,6 @@
 use crate::Failure;
 use serde::{Deserialize, Serialize};
 use std::{
-    collections::HashSet,
     sync::{Arc, Mutex},
     time::Duration,
 };
@@ -48,6 +47,7 @@ struct State {
 }
 pub struct Pool {
     state: Mutex<State>,
+    infer_urls: Vec<String>,
     policy: Policy,
     client: reqwest::Client,
     changed: Notify,
@@ -55,11 +55,23 @@ pub struct Pool {
 }
 #[derive(Deserialize)]
 pub struct WorkerOutput {
-    pub output: Vec<f32>,
+    pub output: [f32; 2],
 }
 pub struct ResultOutput {
+    pub worker_queue_us: Option<u64>,
+    pub ort_us: Option<u64>,
     pub worker_id: usize,
-    pub output: Vec<f32>,
+    pub output: [f32; 2],
+}
+enum WorkerReply {
+    Prediction(ResultOutput),
+    Rejected(Failure),
+}
+#[derive(Serialize)]
+struct WorkerInput<'a> {
+    values: &'a [f32],
+    request_id: &'a str,
+    remaining_ms: u64,
 }
 // The guard owns its Arc, so cancellation drops it and decrements the count.
 struct Lease {
@@ -77,6 +89,7 @@ impl Pool {
         assert!(!urls.is_empty() && per_worker > 0);
         let n = urls.len();
         Arc::new(Self {
+            infer_urls: urls.iter().map(|url| format!("{url}/infer")).collect(),
             state: Mutex::new(State {
                 workers: urls
                     .into_iter()
@@ -104,26 +117,41 @@ impl Pool {
     pub fn snapshot(&self) -> Vec<WorkerStatus> {
         self.state.lock().unwrap().workers.clone()
     }
-    fn select(self: &Arc<Self>, excluded: &HashSet<usize>) -> Option<Lease> {
+    // Ok(None) means healthy workers exist but all are at capacity.
+    fn select(self: &Arc<Self>, excluded: Option<usize>) -> Result<Option<Lease>, Failure> {
         let mut state = self.state.lock().unwrap();
         let n = state.workers.len();
-        let mut eligible: Vec<_> = (0..n)
-            .map(|offset| (state.cursor + offset) % n)
-            .filter(|&i| {
-                let w = &state.workers[i];
-                w.healthy && w.in_flight < self.per_worker && !excluded.contains(&i)
-            })
-            .collect();
-        if self.policy == Policy::LeastInFlight {
-            eligible.sort_by_key(|&i| state.workers[i].in_flight);
+        let mut has_healthy_worker = false;
+        let mut best = None;
+        let mut best_load = self.per_worker;
+        for offset in 0..n {
+            let id = (state.cursor + offset) % n;
+            let worker = &state.workers[id];
+            if !worker.healthy || Some(id) == excluded {
+                continue;
+            }
+            has_healthy_worker = true;
+            if worker.in_flight < best_load {
+                best = Some(id);
+                best_load = worker.in_flight;
+                if self.policy == Policy::RoundRobin || best_load == 0 {
+                    break;
+                }
+            }
         }
-        let id = *eligible.first()?;
+        let Some(id) = best else {
+            return if has_healthy_worker {
+                Ok(None)
+            } else {
+                Err(Failure::Unavailable)
+            };
+        };
         state.cursor = (id + 1) % n;
         state.workers[id].in_flight += 1;
-        Some(Lease {
+        Ok(Some(Lease {
             pool: self.clone(),
             id,
-        })
+        }))
     }
     fn mark_failed(&self, id: usize) {
         let mut state = self.state.lock().unwrap();
@@ -169,7 +197,8 @@ impl Pool {
         request_id: &str,
         deadline: Instant,
     ) -> Result<ResultOutput, Failure> {
-        let mut excluded = HashSet::new();
+        let mut excluded = None;
+        let mut last_failure = Failure::Unavailable;
         // At most two attempts, only on different workers. The operation is pure;
         // a lost response can cause duplicate computation but no side effects.
         for _ in 0..2 {
@@ -177,55 +206,86 @@ impl Pool {
                 if Instant::now() >= deadline {
                     return Err(Failure::Deadline);
                 }
+                // notify_waiters wakes even an unpolled Notified created before
+                // the notification. No waiter registration on the ready path.
                 let notified = self.changed.notified();
-                tokio::pin!(notified);
-                notified.as_mut().enable(); // Register before checking to avoid lost wakeups.
-                if let Some(lease) = self.select(&excluded) {
-                    break lease;
-                }
-                if !self
-                    .snapshot()
-                    .iter()
-                    .any(|w| w.healthy && !excluded.contains(&w.id))
-                {
-                    return Err(Failure::Unavailable);
+                match self.select(excluded) {
+                    Ok(Some(lease)) => break lease,
+                    Ok(None) => {}
+                    Err(_) => return Err(last_failure),
                 }
                 timeout_at(deadline, notified)
                     .await
                     .map_err(|_| Failure::Deadline)?;
             };
             let id = lease.id;
-            excluded.insert(id);
-            let url = self.snapshot()[id].url.clone();
             // Give a stalled first attempt only half the remaining budget, leaving
             // room for one retry. Every stage remains inside the original deadline.
             let remaining = deadline.saturating_duration_since(Instant::now());
-            let attempt_budget = if excluded.len() == 1 {
+            let attempt_budget = if excluded.is_none() && self.infer_urls.len() > 1 {
                 remaining / 2
             } else {
                 remaining
             };
             let result = async {
-                let response = self.client.post(format!("{url}/infer"))
-                    .json(&serde_json::json!({"values":values,"request_id":request_id,"remaining_ms":attempt_budget.as_millis().clamp(1,10000) as u64}))
-                    .send().await?.error_for_status()?;
-                response.json::<WorkerOutput>().await
-            };
-            if let Ok(Ok(body)) = tokio::time::timeout(attempt_budget, result).await {
-                if body.output.len() == 2 && body.output.iter().all(|v| v.is_finite()) {
-                    return Ok(ResultOutput {
+                let response = self
+                    .client
+                    .post(&self.infer_urls[id])
+                    .json(&WorkerInput {
+                        values,
+                        request_id,
+                        remaining_ms: attempt_budget.as_millis().clamp(1, 10000) as u64,
+                    })
+                    .send()
+                    .await?;
+                match response.status() {
+                    reqwest::StatusCode::TOO_MANY_REQUESTS => {
+                        return Ok(WorkerReply::Rejected(Failure::Overloaded));
+                    }
+                    reqwest::StatusCode::GATEWAY_TIMEOUT => {
+                        return Ok(WorkerReply::Rejected(Failure::Deadline));
+                    }
+                    _ => {}
+                }
+                let response = response.error_for_status()?;
+                let timing = |name| {
+                    response
+                        .headers()
+                        .get(name)
+                        .and_then(|v| v.to_str().ok()?.parse::<u64>().ok())
+                };
+                let worker_queue_us = timing("x-worker-queue-us");
+                let ort_us = timing("x-onnx-run-us");
+                response.json::<WorkerOutput>().await.map(|body| {
+                    WorkerReply::Prediction(ResultOutput {
                         worker_id: id,
                         output: body.output,
-                    });
+                        worker_queue_us,
+                        ort_us,
+                    })
+                })
+            };
+            match tokio::time::timeout(attempt_budget, result).await {
+                Ok(Ok(WorkerReply::Prediction(result)))
+                    if result.output.iter().all(|v| v.is_finite()) =>
+                {
+                    return Ok(result);
+                }
+                // A full worker or a job that expired in its executor queue
+                // can leave the process healthy for the next request.
+                Ok(Ok(WorkerReply::Rejected(reason))) => last_failure = reason,
+                _ => {
+                    self.mark_failed(id);
+                    last_failure = Failure::Unavailable;
                 }
             }
-            self.mark_failed(id);
+            excluded = Some(id);
             drop(lease);
         }
         Err(if Instant::now() >= deadline {
             Failure::Deadline
         } else {
-            Failure::Unavailable
+            last_failure
         })
     }
 }
@@ -243,11 +303,11 @@ mod tests {
     #[test]
     fn round_robin_excludes_failed_and_releases_leases() {
         let p = healthy(Policy::RoundRobin);
-        let a = p.select(&HashSet::new()).unwrap();
-        let b = p.select(&HashSet::new()).unwrap();
+        let a = p.select(None).unwrap().unwrap();
+        let b = p.select(None).unwrap().unwrap();
         assert_eq!((a.id, b.id), (0, 1));
         p.mark_failed(0);
-        assert_eq!(p.select(&HashSet::new()).unwrap().id, 1);
+        assert_eq!(p.select(None).unwrap().unwrap().id, 1);
         drop(a);
         drop(b);
         assert!(p.snapshot().iter().all(|w| w.in_flight == 0));
@@ -255,10 +315,10 @@ mod tests {
     #[test]
     fn least_in_flight_and_exclusion() {
         let p = healthy(Policy::LeastInFlight);
-        let a = p.select(&HashSet::new()).unwrap();
+        let a = p.select(None).unwrap().unwrap();
         p.state.lock().unwrap().cursor = 0;
-        assert_eq!(p.select(&HashSet::new()).unwrap().id, 1);
-        assert_eq!(p.select(&HashSet::from([0])).unwrap().id, 1);
+        assert_eq!(p.select(None).unwrap().unwrap().id, 1);
+        assert_eq!(p.select(Some(0)).unwrap().unwrap().id, 1);
         drop(a);
     }
 }

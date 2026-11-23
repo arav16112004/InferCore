@@ -25,6 +25,12 @@ cargo build --release --locked
 # In another run: --policy least-in-flight
 ```
 
+The launcher starts one Uvicorn server per worker. On CPython for macOS and
+Linux, the worker lockfile pins uvloop for the event loop and httptools for HTTP
+parsing. Uvicorn selects both automatically. Each worker loads and warms the
+bundled ONNX model before answering its first health check. Training dependencies
+load only when you run the training or model evaluation scripts.
+
 On the original development Mac Rust was installed only into ignored `.tools/`.
 Run `source scripts/env.sh` before Cargo commands there. On a fresh clone with
 normal rustup installation, use Cargo directly; do not source that helper.
@@ -70,6 +76,9 @@ plausibility. JSON bodies are limited to 4096 bytes.
 Success is `{"request_id":"<uuid>","backend":"onnx","worker_id":0,"output":[p0,p1]}`.
 `output` is `[P(versicolor), P(virginica)]`. Setosa was excluded from training.
 In simulated mode the output is a one-element sum, explicitly labeled `simulated`.
+Successful predictions also report gateway admission time in microseconds in
+`x-queue-wait-us`. On real worker successes, `x-worker-queue-us` measures executor waiting and
+`x-onnx-run-us` measures the ONNX Runtime call for the successful attempt.
 Every HTTP response has a server-generated `x-request-id`; client IDs are ignored.
 Errors carry a JSON `error` and the request ID in the response header.
 
@@ -112,8 +121,8 @@ semaphores bounds the work and the waiting futures. This is a bounded in-memory
 request queue, not a durable channel. Request bodies are validated before
 admission, so connection handling and JSON parsing are outside this bound.
 
-Each worker accepts at most two pending jobs, including one computing. An async
-lock serializes its ONNX calls; there is one intra-op and one inter-op ORT thread.
+Each worker accepts at most two pending jobs, including the one computing. A dedicated
+single-thread executor serializes ONNX calls. ORT uses one intra-op and one inter-op thread.
 Six active gateway requests can therefore include three computing and three
 waiting at workers. Depth two lets routing observe unequal in-flight counts; a
 simpler depth-one worker avoids this second queue. Extra buffering absorbs bursts
@@ -145,20 +154,21 @@ but increases tail latency. Increasing a queue does not increase CPU capacity.
   overload. A FIFO semaphore queue is sufficient here; a central dispatcher would
   make priorities possible but adds task lifecycle and cancellation complexity.
 - **Deadlines:** one monotonic timestamp starts at HTTP middleware entry. Parsing,
-  queue wait, worker selection, transport and retry share that budget. The first
+  queue wait, worker selection, transport and retry share that budget. With multiple configured workers, the first
   attempt gets half the remaining time; a second different worker gets what is
   left. This reserves retry time but can reject a slow healthy worker too early.
+  A single configured worker receives the full remaining budget.
   Slow request-body reads additionally have a fixed 10-second server cap, since
   the JSON client deadline cannot be known before parsing.
-- **Cancellation:** dropping Rust futures releases gateway permits and leases.
-  It does not forcibly interrupt remote/native work. Workers shield their tracked
-  compute task so a cancelled HTTP coroutine cannot release the compute lock
-  while its native thread continues. Expired work waiting at a worker is skipped;
-  running ORT is allowed to finish. Killing a process would stop work but also
-  destroys its model session and unrelated admitted jobs.
+- **Cancellation.** When a Rust request ends, its permits and worker lease drop.
+  The Python worker still counts the executor job until it finishes. A job that
+  uses up its budget waiting for the executor returns 504 before calling ONNX.
+  If the native call has already started, it completes on the one worker thread.
+  This keeps health checks responsive and caps CPU work even when callers leave.
 - **Retries:** at most two attempts, different workers only, within the original
-  deadline. Transport errors, non-2xx, invalid output, and attempt timeout exclude
-  that worker. Inference is pure, so repeated calculation has no state side
+  deadline. A worker response of 429 (full) or 504 (expired in its queue) leaves it
+  healthy. A second eligible worker can use the remaining budget. Transport errors, other unsuccessful responses,
+  invalid output, and attempt timeouts exclude the failing worker. Inference is pure, so repeated calculation has no state side
   effects; it still costs CPU. There is no exactly-once guarantee or deduplication.
   Retrying a state-changing API would need a different design.
 - **Health and recovery:** concurrent probes run roughly every 250 ms, with
@@ -175,7 +185,9 @@ For the underlying APIs see [Axum](https://docs.rs/axum/latest/axum/),
 ## Model provenance
 
 `worker/model.py` trains binary logistic regression on the bundled scikit-learn
-Iris dataset, using a fixed stratified 80/20 split and seed 2026, then exports
+Iris dataset, using a fixed stratified 80/20 split and seed 2026. Standardization
+and regularization (C=10) were selected on the 80 training rows. The export folds
+the scaler into the coefficients so the public API still takes centimeters and uses
 standard MatMul/Add/Sigmoid/Sub/Concat operations (opset 17, IR 9). No separate
 converter, external weights, model hosting service, or training framework is
 required. `models/iris_logistic.json` records the SHA-256 and held-out accuracy.
@@ -213,13 +225,17 @@ slower than that time; p99 exposes rarer delays and needs enough samples. Report
 success throughput, success percentiles, rejection count, and other errors
 together. The raw files also retain latency for every failed/rejected request;
 histograms in summary JSON are cumulative and are not an additional measurement.
-See [recorded results](docs/BENCHMARKS.md) and [verification](docs/VERIFICATION.md).
+See the [matched optimization study](docs/OPTIMIZATION.md), [original benchmark results](docs/BENCHMARKS.md), and [verification](docs/VERIFICATION.md).
 
 ## Docker (optional)
 
 Docker isolates runtime dependencies and makes the three-process deployment
 repeatable. Native execution is preferable for understanding and measuring this
 Mac; Docker Desktop uses a Linux VM, so its benchmarks are a different environment.
+
+The worker image installs `requirements.worker.lock` and serves the bundled
+ONNX file. Local development uses `requirements.lock`, which includes the
+worker pins plus the training, testing, and benchmark packages.
 
 ```sh
 docker compose up --build
@@ -246,9 +262,8 @@ container execution is **not verified**. Compose syntax validation is recorded.
 | QUEUE_CAPACITY | 12 | Waiting requests; zero disables waiting |
 
 A dead worker causes temporary errors/retries, followed by exclusion and recovery.
-All workers down: `/health` stays 200; `/ready` and inference return 503. A busy
-worker can return 429 and be excluded until a later successful health probe; this
-simple policy can flap under overload. Gateway timeout frees gateway capacity,
+All workers down: `/health` stays 200; `/ready` and inference return 503. A busy worker returns 429 and remains eligible for later requests.
+The gateway can return 429 when both attempts encounter worker capacity limits. Gateway timeout frees gateway capacity,
 while worker-side bounded admission protects against lingering native work.
 Health is process/session liveness, not a guarantee of progress of every model call.
 There is no dedicated circuit-breaker cooldown, process memory limit, persistent

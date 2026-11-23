@@ -143,6 +143,14 @@ async fn ready(State(state): State<AppState>) -> Response {
         }
     }
 }
+#[derive(Serialize)]
+struct Prediction<'a> {
+    request_id: &'a str,
+    backend: &'static str,
+    worker_id: Option<usize>,
+    output: &'a [f32],
+}
+
 async fn infer(
     State(state): State<AppState>,
     axum::Extension(context): axum::Extension<Context>,
@@ -160,27 +168,52 @@ async fn infer(
     }
     let deadline = context.started + Duration::from_millis(input.deadline_ms);
     let work = async {
+        let entering = Instant::now();
         let _permit = state.admit(deadline).await?;
-        match &state.backend {
+        let queue_us = entering.elapsed().as_micros() as u64;
+        let response = match &state.backend {
             Backend::Simulated { delay, fail } => {
                 tokio::time::sleep(*delay).await;
                 if *fail {
                     return Err(Failure::Unavailable);
                 }
-                Ok(
-                    json!({"request_id":context.id,"backend":"simulated","worker_id":null,"output":[input.values.iter().sum::<f32>()]}),
-                )
+                Json(Prediction {
+                    request_id: &context.id,
+                    backend: "simulated",
+                    worker_id: None,
+                    output: &[input.values.iter().sum()],
+                })
+                .into_response()
             }
             Backend::Workers(pool) => {
                 let result = pool.infer(&input.values, &context.id, deadline).await?;
-                Ok(
-                    json!({"request_id":context.id,"backend":"onnx","worker_id":result.worker_id,"output":result.output}),
-                )
+                let mut r = Json(Prediction {
+                    request_id: &context.id,
+                    backend: "onnx",
+                    worker_id: Some(result.worker_id),
+                    output: &result.output,
+                })
+                .into_response();
+                for (name, value) in [
+                    ("x-worker-queue-us", result.worker_queue_us),
+                    ("x-onnx-run-us", result.ort_us),
+                ] {
+                    if let Some(us) = value {
+                        r.headers_mut().insert(name, HeaderValue::from(us));
+                    }
+                }
+                r
             }
-        }
+        };
+        Ok((response, queue_us))
     };
     match timeout_at(deadline, work).await {
-        Ok(Ok(body)) => Json(body).into_response(),
+        Ok(Ok((mut response, queue_us))) => {
+            response
+                .headers_mut()
+                .insert("x-queue-wait-us", HeaderValue::from(queue_us));
+            response
+        }
         Ok(Err(error)) => error.into_response(),
         Err(_) => Failure::Deadline.into_response(),
     }

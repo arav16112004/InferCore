@@ -1,5 +1,5 @@
 {
-  "sha256": "8be47e5ecfc57c078931ee23d33cc093f8cd361670cfbe1b63302e3b73c73619",
+  "sha256": "966866c1f3753313dcb90819f80dd3b5468646ad8b266d5eff4bd11f2665838f",
   "model": "binary Iris logistic regression",
   "train_samples": 80,
   "test_samples": 20,
@@ -11,6 +11,8 @@
     "versicolor",
     "virginica"
   ],
+  "C": 10.0,
+  "standardization": "folded into weights and intercept",
   "features_cm": [
     "sepal_length",
     "sepal_width",

@@ -91,7 +91,16 @@ async fn bounded_queue_overload_and_health_during_load() {
         StatusCode::OK
     );
     assert_eq!(first.await.unwrap().unwrap().status(), StatusCode::OK);
-    assert_eq!(queued.await.unwrap().unwrap().status(), StatusCode::OK);
+    let completed = queued.await.unwrap().unwrap();
+    assert_eq!(completed.status(), StatusCode::OK);
+    assert!(
+        completed.headers()["x-queue-wait-us"]
+            .to_str()
+            .unwrap()
+            .parse::<u64>()
+            .unwrap()
+            > 0
+    );
 }
 #[tokio::test]
 async fn queue_deadline_and_cancel_release_capacity() {

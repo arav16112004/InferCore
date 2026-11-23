@@ -53,8 +53,9 @@ async def phase(client, concurrency, seconds):
                     if body.get("backend")!="onnx" or len(body.get("output",[]))!=2:
                         error="invalid_success_body"; status=0
                     worker=body.get("worker_id")
-            except (httpx.HTTPError,ValueError) as e:
-                error=type(e).__name__
+            except (httpx.HTTPError, ValueError, AttributeError, TypeError) as e:
+                status = 0
+                error = type(e).__name__
             rows.append({"user":user_id,"start_s":begin-started,
                 "latency_ms":(time.perf_counter()-begin)*1000,
                 "status":status,"error":error,"worker_id":worker})
@@ -123,8 +124,8 @@ def main():
     try:
         for port in (9001,9002,9003):
             workers.append(start_worker(port))
-        for port in (9001,9002,9003):
-            wait_ready(f"http://127.0.0.1:{port}/health",timeout=30)
+        for port, child in zip((9001,9002,9003), workers):
+            wait_ready(f"http://127.0.0.1:{port}/health", timeout=30, child=child, expected_pid=child.pid)
         for concurrency in args.concurrency:
             for repeat in range(args.repeats):
                 policies=["round-robin","least-in-flight"]
@@ -135,7 +136,7 @@ def main():
                     env=dict(os.environ,BACKEND="onnx",POLICY=policy,MAX_IN_FLIGHT=str(args.max_in_flight),QUEUE_CAPACITY=str(args.queue_capacity),
                         BIND="127.0.0.1:8080",WORKER_URLS="http://127.0.0.1:9001,http://127.0.0.1:9002,http://127.0.0.1:9003")
                     gateway=subprocess.Popen([str(ROOT/"target/release/infercore")],env=env,cwd=ROOT,stdout=subprocess.DEVNULL)
-                    wait_ready("http://127.0.0.1:8080/ready")
+                    wait_ready("http://127.0.0.1:8080/ready", child=gateway)
                     rows,summary=asyncio.run(measure(concurrency,args.warmup,args.seconds))
                     summary.update(run=run,policy=policy,concurrency=concurrency,repeat=repeat+1)
                     with (args.output/f"{run}.jsonl").open("w") as f:

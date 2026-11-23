@@ -113,6 +113,8 @@ def test_three_workers_real_inference_concurrency_and_crash_recovery(workers, po
             assert r.status_code == 200
             body = r.json()
             assert body["backend"] == "onnx"
+            for header in ("x-queue-wait-us", "x-worker-queue-us", "x-onnx-run-us"):
+                assert int(r.headers[header]) >= 0
             assert len(body["output"]) == 2
             assert body["request_id"] == r.headers["x-request-id"]
             seen.add(body["worker_id"])
@@ -151,6 +153,10 @@ def fake_worker(mode):
         def do_POST(self):
             type(self).calls += 1
             self.rfile.read(int(self.headers["Content-Length"]))
+            if mode in ("busy", "expired"):
+                self.send_response(429 if mode == "busy" else 504)
+                self.end_headers()
+                return
             if mode == "disconnect":
                 self.close_connection = True
                 return
@@ -160,7 +166,11 @@ def fake_worker(mode):
             self.send_header("Content-Type","application/json")
             self.end_headers()
             try:
-                self.wfile.write(b'{"output":[0.2,0.8]}' if mode != "malformed" else b'{"output":[0.2]}')
+                bodies = {
+                    "malformed": b'{"output":[0.2]}',
+                    "extra_score": b'{"output":[0.2,0.8,0.0]}',
+                }
+                self.wfile.write(bodies.get(mode, b'{"output":[0.2,0.8]}'))
             except BrokenPipeError:
                 pass
     server=ThreadingHTTPServer(("127.0.0.1",0),Handler)
@@ -171,7 +181,7 @@ def fake_worker(mode):
         server.shutdown(); server.server_close(); thread.join()
 
 
-@pytest.mark.parametrize("mode", ["disconnect","stall","malformed"])
+@pytest.mark.parametrize("mode", ["disconnect","stall","malformed","extra_score"])
 def test_retry_different_worker_inside_original_deadline(mode):
     with fake_worker(mode) as (bad,calls), fake_worker("ok") as (good,good_calls):
         with gateway([bad,good],active=1,queue=0) as c:
@@ -221,15 +231,81 @@ def test_worker_cancellation_keeps_compute_slot_until_native_work_finishes():
                 task.cancel()
                 with pytest.raises(asyncio.CancelledError):
                     await task
-                assert app.state.pending == 1
-                assert app.state.compute.locked()
-                assert (await c.get("/health")).status_code == 200
+                health = await c.get("/health")
+                assert health.status_code == 200
+                assert health.json()["pending"] == 1
                 # A second job can wait, but a third must be rejected.
                 queued=asyncio.create_task(c.post("/infer",json={"values":VALUES,"request_id":"queued","remaining_ms":1000}))
                 await asyncio.sleep(.01)
                 assert (await c.post("/infer",json={"values":VALUES,"request_id":"overload","remaining_ms":1000})).status_code == 429
                 release.set()
                 assert (await queued).status_code == 200
-                assert app.state.pending == 0
-                assert not app.state.compute.locked()
+                assert (await c.get("/health")).json()["pending"] == 0
     asyncio.run(scenario())
+
+
+def test_worker_skips_expired_queued_job_and_reuses_slot():
+    from worker.server import app, lifespan
+
+    async def scenario():
+        entered, release = threading.Event(), threading.Event()
+        executed = []
+
+        class BlockingSession:
+            def run(self, names, feeds):
+                executed.append(feeds["features"][0].tolist())
+                entered.set()
+                if not release.wait(timeout=3):
+                    raise RuntimeError("timed out waiting for test release")
+                return [np.array([[0.25, 0.75]], dtype=np.float32)]
+
+        async with lifespan(app):
+            app.state.session = BlockingSession()
+            async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as client:
+                payload = {"values": VALUES, "request_id": "first", "remaining_ms": 1000}
+                first = asyncio.create_task(client.post("/infer", json=payload))
+                try:
+                    assert await asyncio.to_thread(entered.wait, 2)
+                    queued = asyncio.create_task(client.post("/infer", json={**payload, "request_id":"waiter", "remaining_ms":5}))
+                    for _ in range(100):
+                        if (await client.get("/health")).json()["pending"] == 2:
+                            break
+                        await asyncio.sleep(.001)
+                    else:
+                        pytest.fail("second request was never admitted")
+                    await asyncio.sleep(.02)
+                finally:
+                    release.set()
+                assert (await first).status_code == 200
+                assert (await queued).status_code == 504
+                assert len(executed) == 1
+                assert (await client.post("/infer", json=payload)).status_code == 200
+                assert (await client.get("/health")).json()["pending"] == 0
+
+    asyncio.run(scenario())
+
+
+@pytest.mark.parametrize(("mode", "status"), [("busy", 429), ("expired", 504)])
+def test_worker_rejection_preserves_health_and_can_retry(mode, status):
+    with fake_worker(mode) as (worker, calls):
+        with gateway([worker]) as c:
+            for _ in range(2):
+                assert c.post("/infer", json={"values": VALUES}).status_code == status
+                assert c.get("/ready").json()["workers"][0]["healthy"]
+            assert calls.calls == 2
+        with fake_worker("ok") as (available, alternate_calls):
+            with gateway([worker, available]) as c:
+                reply = c.post("/infer", json={"values": VALUES})
+                assert reply.status_code == 200
+                assert reply.json()["worker_id"] == 1
+                assert c.get("/ready").json()["workers"][0]["healthy"]
+                assert calls.calls == 3 and alternate_calls.calls == 1
+
+
+def test_only_configured_worker_gets_entire_remaining_deadline():
+    # The peer returns after 300 ms, beyond half the budget but within 500 ms.
+    with fake_worker("stall") as (url, calls):
+        with gateway([url]) as c:
+            reply = c.post("/infer", json={"values": VALUES, "deadline_ms": 500})
+            assert reply.status_code == 200
+            assert calls.calls == 1

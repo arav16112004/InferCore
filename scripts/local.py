@@ -15,12 +15,17 @@ import httpx
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def wait_ready(url, timeout=15):
+def wait_ready(url, timeout=15, child=None, expected_pid=None):
     until = time.monotonic() + timeout
     with httpx.Client(trust_env=False, timeout=0.5) as client:
         while time.monotonic() < until:
+            if child is not None and child.poll() is not None:
+                raise RuntimeError(f"child {child.pid} exited before {url} became ready")
             try:
-                if client.get(url).status_code == 200:
+                response = client.get(url)
+                if response.status_code == 200:
+                    if expected_pid is not None and response.json().get("pid") != expected_pid:
+                        raise RuntimeError(f"{url} belongs to another process")
                     return
             except httpx.HTTPError:
                 pass
@@ -52,12 +57,12 @@ def main():
     try:
         for port in range(9001, 9001 + args.workers):
             processes[port] = start_worker(port)
-        for port in processes:
-            wait_ready(f"http://127.0.0.1:{port}/health")
+        for port, child in processes.items():
+            wait_ready(f"http://127.0.0.1:{port}/health", child=child, expected_pid=child.pid)
         env = dict(os.environ, BACKEND="onnx", POLICY=args.policy,
             WORKER_URLS=",".join(f"http://127.0.0.1:{p}" for p in processes))
         gateway = subprocess.Popen([str(ROOT / "target/release/infercore")], cwd=ROOT, env=env)
-        wait_ready("http://127.0.0.1:8080/ready")
+        wait_ready("http://127.0.0.1:8080/ready", child=gateway)
         print(f"Ready: gateway PID={gateway.pid}; workers=" + str({p: x.pid for p, x in processes.items()}), flush=True)
         while not stopping:
             if gateway.poll() is not None:

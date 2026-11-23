@@ -23,8 +23,8 @@ An `async fn` returns a future. `.await` can suspend that future without blockin
 an OS thread. Tokio polls ready futures; CPU-heavy code that never yields prevents
 other work on that executor thread. Waiting concurrently is different from
 performing CPU arithmetic in parallel. Python ONNX native work runs outside the
-HTTP event loop via `asyncio.to_thread`; one compute lock deliberately serializes
-each worker's model execution.
+HTTP event loop in a single-thread executor. Each worker can have one call
+computing and one waiting for that thread.
 
 Experiment: run simulated mode, issue parallel requests and `/health`. Predict
 what happens if the async sleep becomes a blocking thread sleep, then verify in a
@@ -72,7 +72,7 @@ Read the middleware timestamp, admit(), Pool::infer(), health epochs and worker
 shielded task. One absolute deadline prevents queue wait plus retry from silently
 exceeding the client's total budget. Independent per-stage one-second timeouts
 would add up to several seconds. The half-budget first attempt leaves retry room
-but is a heuristic; a single worker cannot use the reserved half after exclusion.
+when several workers are configured. A single configured worker gets the full budget.
 
 Run scripts/demo.py. Kill the worker, observe failed transport, exclusion, a new
 PID and successful routing back to that worker. Distinguish the supervisor's
@@ -82,8 +82,8 @@ thread, and transport timeout does not prove the operation never ran.
 
 Explain why retrying pure inference is safe for correctness but still uses CPU.
 Then explain why the same retry policy is unsafe for charging a credit card. Read
-the cancellation test and predict the bug if the Python compute lock belonged only
-to the cancelled HTTP handler rather than the shielded task.
+the cancellation test and predict what would happen if HTTP cancellation returned
+a worker slot while its submitted job was still running.
 
 ## Day 5: measurements
 
